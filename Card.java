@@ -8,7 +8,7 @@ public class Card extends JButton {
 	Icon pic;
 	
 	public Card(Icon a) {
-		pic = a; setStatus(Status.MISSING);}
+		pic = a; setStatus(Status.HIDDEN);}
 	public Card(Icon a, Status b) {
 		pic = a; setStatus(b);}
 	
