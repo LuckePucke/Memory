@@ -1,0 +1,14 @@
+#BlueJ class context
+comment0.params=a
+comment0.target=Card(javax.swing.Icon)
+comment1.params=a\ b
+comment1.target=Card(javax.swing.Icon,\ Card.Status)
+comment2.params=
+comment2.target=Card.Status\ getStatus()
+comment3.params=
+comment3.target=Card\ copy()
+comment4.params=a
+comment4.target=boolean\ equalIcon(Card)
+comment5.params=a
+comment5.target=void\ setStatus(Card.Status)
+numComments=6
