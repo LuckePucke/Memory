@@ -10,14 +10,18 @@ public class Card extends JButton {
 	public Card(Icon a) {
 		pic = a; setStatus(Status.HIDDEN);}
 	public Card(Icon a, Status b) {
-		pic = a; setStatus(b);}
+		pic = a; setStatus(b);
+	}
 	
 	public Status getStatus() {
-		return state;}
+		return state;
+	}
 	public Card copy() {
-		return new Card(pic, state);}
+		return new Card(pic, state);
+	}
 	public boolean equalIcon(Card a) {
-		return a.pic == pic;}
+		return a.pic == pic;
+	}
 	public void setStatus(Status a) {
 		state = a;
 		switch(a) {
@@ -33,5 +37,4 @@ public class Card extends JButton {
 							break;
 		}
 	}
-	
 }

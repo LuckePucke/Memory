@@ -16,8 +16,8 @@ public class Spelare extends JPanel {
 	
 	public void update() {
 		removeAll();
-		add(new JLabel("Spelare " + nr));
-		add(new JLabel(Integer.toString(poäng)));
+		add(new JLabel("Spelare " + nr, SwingConstants.CENTER));
+		add(new JLabel(Integer.toString(poäng), SwingConstants.CENTER));
 	}
 	
 	public void addPoint() {

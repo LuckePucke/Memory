@@ -9,13 +9,15 @@ import java.awt.event.ActionListener;
 
 public class Memory extends JFrame implements ActionListener {
 	
-    File folder;
-    File[] pictures;
-    Card[] allCards;
+    File folder		= new File("mypictures");
+    File[] pictures = folder.listFiles();
+    Card[] allCards = new Card[pictures.length];
     Card[] cards;
-    int X, Y, p;
+    
     JPanel upp,ner,spelare,spelplan;
     JButton nytt,slut;
+    
+    int X, Y, p;
     Spelare[] players;
     int player = 0;
     int fas = 0; 
@@ -23,21 +25,19 @@ public class Memory extends JFrame implements ActionListener {
     Timer timer = new Timer(1500, this);
     
     public Memory() {
-        folder =  new File("mypictures");
-        System.out.println(folder.getAbsolutePath());
-        pictures  = folder.listFiles();
+    	
+    	// Skapa allCards
+        for (int i = 0; i < pictures.length; i++) {
+            allCards[i] = new Card(new ImageIcon(pictures[i].getPath()));
+        }
         
-        allCards= new Card[pictures.length];
+        // JObjekt initiering
         spelare = new JPanel();
         spelplan = new JPanel();
         upp = new JPanel();
         ner = new JPanel();
         nytt = new JButton("Nytt");
         slut = new JButton("Avsluta");
-        
-        for (int i = 0; i < pictures.length; i++) {
-            allCards[i] = new Card(new ImageIcon(pictures[i].getPath()));
-        }
         
         setLayout(new BorderLayout());
         
@@ -55,50 +55,53 @@ public class Memory extends JFrame implements ActionListener {
 
     public void newGame() {
     	
-        p = Integer.parseInt(JOptionPane.showInputDialog("Hur mÃ¥nga spelare?"));
+    	// Antal spelare
+        p = Integer.parseInt(JOptionPane.showInputDialog("Hur många spelare?"));
         players = new Spelare[p];
         
+        // Skapa spelare och återställ fas
         for (int i = 0; i < p; i++) {
         	players[i] = new Spelare(i+1);
         }
-        players[0].toggleTurn();
-        player = 0;
-    	fas = 0;
-        
     	spelare.removeAll();
     	spelare.setLayout(new GridLayout(p, 1));
     	for (int i = 0; i < p; i++) {
         	spelare.add(players[i]);
         }
+        players[0].toggleTurn();
+        player = 0;
+    	fas = 0;
     	
+    	// Bestäm planstorlek och skapa spelplan
     	do {
-    		X = Integer.parseInt(JOptionPane.showInputDialog("Hur mÃ¥nga rader?"));
-            Y = Integer.parseInt(JOptionPane.showInputDialog("Hur mÃ¥nga kolumner?"));
-            spelplan.removeAll();
-            Tools.randomOrder(allCards);
-            cards = new Card[X*Y];
+    		X = Integer.parseInt(JOptionPane.showInputDialog("Hur många rader?"));
+            Y = Integer.parseInt(JOptionPane.showInputDialog("Hur många kolumner?"));
+            
             if((X*Y % 2) != 0 ){
-            	JOptionPane.showMessageDialog(null, "MÃ¥ste vara ett jÃ¤mnt antal kort, idiot!");
+            	JOptionPane.showMessageDialog(null, "Måste vara ett jämnt antal kort, max 36 st!");
             }
-    	} while (X*Y%2 != 0);
+            
+    	} while (X*Y%2 != 0 && X*Y > 36);
     	
-    	
-        
-        
+    	// Slumpa kort på planen
+    	Tools.randomOrder(allCards);
+    	cards = new Card[X*Y];
         for (int i = 0; i < X*Y/2; i++) {
             cards[i] = allCards[i].copy();
             cards[i].addActionListener(this);
             cards[X*Y/2 + i] = allCards[i].copy();
             cards[X*Y/2 + i].addActionListener(this);
         }
-        
         Tools.randomOrder(cards);
         
+        // Lägg kort på planen
+    	spelplan.removeAll();
         spelplan.setLayout(new GridLayout(X, Y));
         for (int i = 0; i < X*Y; i++) {
             cards[i].setActionCommand(Integer.toString(i));
             spelplan.add(cards[i]);
         }
+        
         pack();
         setVisible(true);
     }
